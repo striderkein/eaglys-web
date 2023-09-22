@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -9,18 +9,6 @@ function App() {
   const [modifiedSql, setModifiedSql] = useState('');
 
   const apiUrl = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
-
-  const adjustHeight = () => {
-    const textarea = document.querySelector('.ast-area');
-    if (textarea) {
-      textarea.style.height = "inherit";
-      textarea.style.height = (textarea.scrollHeight) + "px";
-    }
-  }
-
-  useEffect(() => {
-    adjustHeight();
-  }, [modifiedSql]);
 
   const handleSqlChange = (e) => {
     setSql(e.target.value);
@@ -42,7 +30,6 @@ function App() {
         handleSqlChange={handleSqlChange}
         handleTransformChange={handleTransformChange}
         modifiedSql={modifiedSql}
-        adjustHeight={adjustHeight}
       />
     </div>
   );
