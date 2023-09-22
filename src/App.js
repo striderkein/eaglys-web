@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+
+import Section1 from './components/Section1';
 
 function App() {
   const [sql, setSql] = useState('');
   const [modifiedSql, setModifiedSql] = useState('');
 
   const apiUrl = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
+
+  const adjustHeight = () => {
+    const textarea = document.querySelector('.ast-area');
+    if (textarea) {
+      textarea.style.height = "inherit";
+      textarea.style.height = (textarea.scrollHeight) + "px";
+    }
+  }
+
+  useEffect(() => {
+    adjustHeight();
+  }, [modifiedSql]);
 
   const handleSqlChange = (e) => {
     setSql(e.target.value);
@@ -23,17 +37,14 @@ function App() {
 
   return (
     <div className="App">
-      <section className="section">
-        <h1>SQL Transformer</h1>
-        <textarea 
-          className="hoge"
-          value={sql}
-          onChange={handleSqlChange}
+      <h1>SQL Transformer</h1>
+      <Section1 sql={sql} handleSqlChange={handleSqlChange} handleTransformChange={handleTransformChange} />
+      <section className="section-2">
+        <textarea
+          value={modifiedSql}
+          className="ast-area"
+          onChange={adjustHeight}
         />
-        <button onClick={handleTransformChange}>Transform SQL</button>
-      </section>
-      <section className="section">
-        <textarea readOnly value={modifiedSql} className="hoge"></textarea>
       </section>
     </div>
   );
