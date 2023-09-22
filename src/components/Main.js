@@ -6,7 +6,7 @@ import Section2 from './Section2';
 
 function Main() {
   const [sql, setSql] = useState('');
-  const [modifiedSql, setModifiedSql] = useState('');
+  const [ast, setAst] = useState('');
 
   const apiUrl = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
 
@@ -17,7 +17,7 @@ function Main() {
   const handleTransformChange = async () => {
     try {
       const response = await axios.post(`${apiUrl}/parse-sql`, { sql });
-      setModifiedSql(JSON.stringify(response.data, null, 2));
+      setAst(JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error("API-1 Error:", error);
     }
@@ -31,7 +31,7 @@ function Main() {
         handleSqlChange={handleSqlChange}
         handleTransformChange={handleTransformChange}
       />
-      <Section2 modifiedSql={modifiedSql} />
+      <Section2 ast={ast} />
     </div>
   );
 }
