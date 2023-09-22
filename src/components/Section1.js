@@ -9,7 +9,9 @@ function Section1({ sql, handleSqlChange, handleTransformChange }) {
         value={sql}
         onChange={handleSqlChange}
       />
-      <button onClick={handleTransformChange}>Transform SQL</button>
+      <div className="button-area">
+        <button onClick={handleTransformChange}>Transform SQL</button>
+      </div>
     </section>
   );
 }
