@@ -34,7 +34,10 @@
   border: 1px solid #ccc;
 }
 
-.hoge {
+.hoge,
+.ast-area,
+.sql-area,
+.map-area {
   width: 70vw;
 }
 
