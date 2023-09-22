@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
-import Section1 from './components/Section1';
-import Section2 from './components/Section2';
+import Main from './components/Main';
 
 function App() {
   const [sql, setSql] = useState('');
@@ -38,9 +37,13 @@ function App() {
 
   return (
     <div className="App">
-      <h1>SQL Transformer</h1>
-      <Section1 sql={sql} handleSqlChange={handleSqlChange} handleTransformChange={handleTransformChange} />
-      <Section2 modifiedSql={modifiedSql} adjustHeight={adjustHeight} />
+      <Main
+        sql={sql}
+        handleSqlChange={handleSqlChange}
+        handleTransformChange={handleTransformChange}
+        modifiedSql={modifiedSql}
+        adjustHeight={adjustHeight}
+      />
     </div>
   );
 }
