@@ -3,6 +3,7 @@ import React from 'react';
 function Section1({ sql, handleSqlChange, handleTransformChange }) {
   return (
     <section className="section-1">
+      <h2>SQL</h2>
       <textarea
         className="hoge"
         value={sql}

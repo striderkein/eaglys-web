@@ -15,6 +15,7 @@ function Section3({ columnMap }) {
 
   return (
     <section className="section-2">
+      <h2>Column Map</h2>
       <textarea
         value={columnMap}
         className="map-area"
