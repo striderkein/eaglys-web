@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 import Section1 from './components/Section1';
+import Section2 from './components/Section2';
 
 function App() {
   const [sql, setSql] = useState('');
@@ -39,13 +40,7 @@ function App() {
     <div className="App">
       <h1>SQL Transformer</h1>
       <Section1 sql={sql} handleSqlChange={handleSqlChange} handleTransformChange={handleTransformChange} />
-      <section className="section-2">
-        <textarea
-          value={modifiedSql}
-          className="ast-area"
-          onChange={adjustHeight}
-        />
-      </section>
+      <Section2 modifiedSql={modifiedSql} adjustHeight={adjustHeight} />
     </div>
   );
 }
