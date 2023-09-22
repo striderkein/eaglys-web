@@ -6,13 +6,15 @@ function App() {
   const [sql, setSql] = useState('');
   const [modifiedSql, setModifiedSql] = useState('');
 
+  const apiUrl = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
+
   const handleSqlChange = (e) => {
     setSql(e.target.value);
   };
 
   const handleTransformChange = async () => {
     try {
-      const response = await axios.post('http://localhost:13000/parse-sql', { sql });
+      const response = await axios.post(`${apiUrl}/parse-sql`, { sql });
       setModifiedSql(JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error("API-1 Error:", error);
