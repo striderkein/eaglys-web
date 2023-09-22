@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-function Section2({ modifiedSql }) {
+function Section2({ ast }) {
   const adjustHeight = () => {
     const textarea = document.querySelector('.ast-area');
     if (textarea) {
@@ -11,12 +11,12 @@ function Section2({ modifiedSql }) {
 
   useEffect(() => {
     adjustHeight();
-  }, [modifiedSql]);
+  }, [ast]);
 
   return (
     <section className="section-2">
       <textarea
-        value={modifiedSql}
+        value={ast}
         className="ast-area"
         onChange={adjustHeight}
       />
