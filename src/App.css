@@ -36,7 +36,8 @@
 
 .hoge,
 .ast-area,
-.sql-area {
+.sql-area,
+.map-area {
   width: 70vw;
 }
 
