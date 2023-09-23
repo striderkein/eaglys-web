@@ -34,12 +34,24 @@
   border: 1px solid #ccc;
 }
 
+.input-area,
+.display-area {
+  margin: 20px;
+  padding: 20px;
+}
+
 .hoge,
 .ast-area,
 .sql-area,
 .map-area {
   width: 70vw;
   font-size: 18px;
+}
+
+.clause {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
 }
 
 @keyframes App-logo-spin {
