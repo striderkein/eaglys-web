@@ -78,24 +78,26 @@ function Section1({ sql, handleSqlChange, handleTransformChange }) {
       </div>
       {selectedTable && (
         <div className="display-area">
-          <span className='clause'>{selectedStatement}</span>
-          {selectedStatement === 'SELECT' && (
-            <span className='clause'>*</span>
-          )}
-          {selectedStatement === 'INSERT' ? (
-            <span className='clause'>INTO</span>
-          ) : (
-            (selectedStatement !== 'UPDATE' && (
-              <span className='clause'>FROM</span>
-            ))
-          )}
-          <span className='clause'>{selectedTable}</span>
-          {(selectedStatement !== 'INSERT' && whereClause) && (
-            <>
-              <span className='clause'>WHERE</span>
-              <span className='clause'>{whereClause}</span>
-            </>
-          )}
+          <span className='clause-container'>
+            <span className='clause'>{selectedStatement}</span>
+            {selectedStatement === 'SELECT' && (
+              <span className='clause'>*</span>
+            )}
+            {selectedStatement === 'INSERT' ? (
+              <span className='clause'>INTO</span>
+            ) : (
+              (selectedStatement !== 'UPDATE' && (
+                <span className='clause'>FROM</span>
+              ))
+            )}
+            <span className='clause'>{selectedTable}</span>
+            {(selectedStatement !== 'INSERT' && whereClause) && (
+              <>
+                <span className='clause'>WHERE</span>
+                <span className='clause'>{whereClause}</span>
+              </>
+            )}
+          </span>
         </div>
       )}
       <textarea
