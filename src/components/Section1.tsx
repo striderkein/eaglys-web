@@ -115,7 +115,12 @@ function Section1({
         </div>
       )}
       <div className="button-area">
-        <button onClick={handleTransformChange}>Transform SQL</button>
+        <button
+          disabled={!selectedTable}
+          onClick={handleTransformChange}
+        >
+          Transform SQL
+        </button>
       </div>
     </section>
   );
