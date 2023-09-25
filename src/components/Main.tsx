@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 
 import Section1 from './Section1';
@@ -12,8 +12,8 @@ function Main() {
 
   const apiUrl = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
 
-  const handleSqlChange = (e) => {
-    setSql(e.target.value);
+  const handleSqlChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setSql(event.target.value);
   };
 
   const handleTransformChange = async () => {
