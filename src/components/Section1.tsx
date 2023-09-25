@@ -1,4 +1,4 @@
-import React, { useCallback, useState, ChangeEvent } from 'react';
+import React, { useCallback, useEffect, useState, ChangeEvent } from 'react';
 
 type Props = {
   sql: string,
@@ -11,27 +11,27 @@ function Section1({
   handleSqlChange,
   handleTransformChange
 }: Props) {
+  const [initialSql, setInitialSql] = useState('');
   const [selectedStatement, setSelectedStatement] = useState('SELECT');
   const [selectedTable, setSelectedTable] = useState('');
   const [whereClause, setWhereClause] = useState('');
 
   const handleSqlTypeChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     const statement = event.target.value;
-    let initialSql = '';
 
     if (selectedTable) {
       switch (statement) {
         case 'SELECT':
-          initialSql = `SELECT * FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`;
+          setInitialSql(`SELECT * FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`);
           break;
         case 'INSERT':
-          initialSql = `INSERT INTO ${selectedTable} (column1, column2) VALUES (value1, value2)`;
+          setInitialSql(`INSERT INTO ${selectedTable} (column1, column2) VALUES (value1, value2)`);
           break;
         case 'UPDATE':
-          initialSql = `UPDATE ${selectedTable} SET column1 = value1 ${whereClause ? `WHERE ${whereClause}` : ''}`;
+          setInitialSql(`UPDATE ${selectedTable} SET column1 = value1 ${whereClause ? `WHERE ${whereClause}` : ''}`);
           break;
         case 'DELETE':
-          initialSql = `DELETE FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`;
+          setInitialSql(`DELETE FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`);
           break;
         default:
           break;
@@ -41,17 +41,21 @@ function Section1({
     console.log(`initialSql: ${initialSql}`)
     setSelectedStatement(statement);
     handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
-}, [selectedTable, whereClause, handleSqlChange]);
+}, [initialSql, selectedTable, whereClause, handleSqlChange]);
 
   const handleTableChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const table = event.target.value;
     setSelectedTable(table);
-  }, []);
+  }, [initialSql]);
 
   const handleWhereClauseChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const whereClause = event.target.value;
     setWhereClause(whereClause);
   }
+
+  useEffect(() => {
+    handleSqlTypeChange({ target: { value: selectedStatement } } as React.ChangeEvent<HTMLSelectElement>);
+  }, [selectedStatement, handleSqlTypeChange]);
 
   return (
     <section className="section-1">
