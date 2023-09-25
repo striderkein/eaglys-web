@@ -114,11 +114,6 @@ function Section1({
           </span>
         </div>
       )}
-      <textarea
-        className="hoge"
-        value={sql}
-        onChange={handleSqlChange}
-      />
       <div className="button-area">
         <button onClick={handleTransformChange}>Transform SQL</button>
       </div>
