@@ -16,11 +16,11 @@ function Section1({
   const [whereClause, setWhereClause] = useState('');
 
   const handleSqlTypeChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    const sqlType = event.target.value;
+    const statement = event.target.value;
     let initialSql = '';
 
     if (selectedTable) {
-      switch (sqlType) {
+      switch (statement) {
         case 'SELECT':
           initialSql = `SELECT * FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`;
           break;
@@ -39,7 +39,7 @@ function Section1({
     }
 
     console.log(`initialSql: ${initialSql}`)
-    setSelectedStatement(sqlType);
+    setSelectedStatement(statement);
     handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
 }, [selectedTable, whereClause, handleSqlChange]);
 
