@@ -1,6 +1,13 @@
+import { type } from '@testing-library/user-event/dist/type';
 import React from 'react';
 
-function Section2({ sql }) {
+type Props = {
+  sql: string,
+}
+
+function Section2({
+  sql
+}: Props) {
   return (
     <section className="section-2">
       <h2>Transformed SQL</h2>

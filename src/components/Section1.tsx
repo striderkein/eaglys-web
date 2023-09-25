@@ -1,11 +1,21 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, ChangeEvent } from 'react';
 
-function Section1({ sql, handleSqlChange, handleTransformChange }) {
+type Props = {
+  sql: string,
+  handleSqlChange: (event: ChangeEvent<HTMLTextAreaElement>) => void,
+  handleTransformChange: () => void,
+}
+
+function Section1({
+  sql,
+  handleSqlChange,
+  handleTransformChange
+}: Props) {
   const [selectedStatement, setSelectedStatement] = useState('SELECT');
   const [selectedTable, setSelectedTable] = useState('');
   const [whereClause, setWhereClause] = useState('');
 
-  const handleSqlTypeChange = useCallback(event => {
+  const handleSqlTypeChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     const sqlType = event.target.value;
     let initialSql = '';
 
@@ -30,15 +40,15 @@ function Section1({ sql, handleSqlChange, handleTransformChange }) {
 
     console.log(`initialSql: ${initialSql}`)
     setSelectedStatement(sqlType);
-    handleSqlChange({ target: { value: initialSql } });
-  });
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+}, [selectedTable, whereClause, handleSqlChange]);
 
-  const handleTableChange = ( event ) => {
+  const handleTableChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const table = event.target.value;
     setSelectedTable(table);
-  };
+  }, []);
 
-  const handleWhereClauseChange = ( event ) => {
+  const handleWhereClauseChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const whereClause = event.target.value;
     setWhereClause(whereClause);
   }
@@ -62,7 +72,7 @@ function Section1({ sql, handleSqlChange, handleTransformChange }) {
           type="text"
           placeholder="my_table"
           value={selectedTable}
-          onInput={handleTableChange}
+          onInput={handleTableChange as () => void}
         />
         {selectedStatement !== 'INSERT' && (
           <>
@@ -71,7 +81,7 @@ function Section1({ sql, handleSqlChange, handleTransformChange }) {
               type="text"
               placeholder='column1 = "value1"'
               value={whereClause}
-              onInput={handleWhereClauseChange}
+              onInput={handleWhereClauseChange as () => void}
             />
           </>
         )}
