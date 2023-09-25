@@ -53,6 +53,14 @@ function Section1({
     setWhereClause(whereClause);
   }
 
+  const handleClearClick = () => {
+    setInitialSql('');
+    setSelectedStatement('SELECT');
+    setSelectedTable('');
+    setWhereClause('');
+    handleSqlChange({ target: { value: '' } } as React.ChangeEvent<HTMLTextAreaElement>);
+  };
+
   useEffect(() => {
     handleSqlTypeChange({ target: { value: selectedStatement } } as React.ChangeEvent<HTMLSelectElement>);
   }, [selectedStatement, handleSqlTypeChange]);
@@ -120,6 +128,12 @@ function Section1({
           onClick={handleTransformChange}
         >
           Transform SQL
+        </button>
+        <button
+          disabled={!selectedTable}
+          className="button" onClick={handleClearClick}
+        >
+          Clear
         </button>
       </div>
     </section>
