@@ -56,7 +56,7 @@ body {
   padding: 20px;
 }
 
-.hoge,
+.clause-container,
 .ast-area,
 .sql-area,
 .map-area {
@@ -67,14 +67,6 @@ body {
   border-radius: 5px;
   background-color: black;
   color: greenyellow;
-}
-
-.clause-container {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  color: white;
 }
 
 .clause {
