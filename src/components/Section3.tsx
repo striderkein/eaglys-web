@@ -1,8 +1,15 @@
+import { type } from '@testing-library/user-event/dist/type';
 import React, { useEffect } from 'react';
 
-function Section3({ columnMap }) {
+type Props = {
+  columnMap: string,
+}
+
+function Section3({
+  columnMap
+}: Props) {
   const adjustHeight = () => {
-    const textarea = document.querySelector('.map-area');
+    const textarea = document.querySelector('.map-area') as HTMLTextAreaElement;
     if (textarea) {
       textarea.style.height = "inherit";
       textarea.style.height = (textarea.scrollHeight) + "px";
@@ -15,6 +22,7 @@ function Section3({ columnMap }) {
 
   return (
     <section className="section-2">
+      <h2>Column Map</h2>
       <textarea
         value={columnMap}
         className="map-area"
