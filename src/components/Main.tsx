@@ -2,8 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 
 import Section1 from './Section1';
-import Section2 from './Section2';
-import Section3 from './Section3';
+import SectionResult from './SectionResult';
 
 function Main() {
   const [sql, setSql] = useState('');
@@ -39,8 +38,9 @@ function Main() {
         handleSqlChange={handleSqlChange}
         handleTransformChange={handleTransformChange}
       />
-      <Section2 sql={modifiedSql} />
-      <Section3 columnMap={columnMap} />
+      {modifiedSql && columnMap && (
+        <SectionResult sql={modifiedSql} columnMap={columnMap} />
+      )}
     </div>
   );
 }
