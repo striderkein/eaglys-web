@@ -53,12 +53,14 @@ function Section1({
   const handleTableChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const table = event.target.value;
     setSelectedTable(table);
-  }, [initialSql]);
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
 
-  const handleWhereClauseChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleWhereClauseChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const whereClause = event.target.value;
     setWhereClause(whereClause);
-  }
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
 
   const handleClearClick = () => {
     setInitialSql('');
