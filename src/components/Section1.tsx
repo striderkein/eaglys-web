@@ -103,102 +103,90 @@ function Section1({
     <section className="section-1">
       <h2>SQL</h2>
       <div className="input-area">
-        <select value={selectedStatement} onChange={handleSqlTypeChange}>
-          <option value="SELECT">SELECT</option>
-          <option value="INSERT">INSERT</option>
-          <option value="UPDATE">UPDATE</option>
-          <option value="DELETE">DELETE</option>
-        </select>
+        <span className="clause">
+          <select value={selectedStatement} onChange={handleSqlTypeChange}>
+            <option value="SELECT">SELECT</option>
+            <option value="INSERT">INSERT</option>
+            <option value="UPDATE">UPDATE</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </span>
         {selectedStatement === 'SELECT' && (
-          <input
-            type="text"
-            placeholder="*"
-            value={selectedColumn}
-            onInput={handleColumnChange as () => void}
-          />
-        )}
-        {selectedStatement === 'INSERT' ? (
-          <span>INTO</span>
-        ) : (
-          <span>{selectedStatement === 'UPDATE' ? '' : 'FROM'}</span>
-        )}
-        <input
-          type="text"
-          placeholder="my_table"
-          value={selectedTable}
-          onInput={handleTableChange as () => void}
-        />
-        {selectedStatement === 'INSERT' && (
-          <>
-            <span>(</span>
+          <span className="clause">
             <input
               type="text"
-              placeholder="column1, column2"
-              value={insertColumns}
-              onInput={handleInsertColumnChange as () => void}
+              placeholder="*"
+              value={selectedColumn}
+              onInput={handleColumnChange as () => void}
             />
-            <span>)</span>
+          </span>
+        )}
+        {selectedStatement === 'INSERT' ? (
+          <span className="clause">INTO</span>
+        ) : (
+          <span className="clause">{selectedStatement === 'UPDATE' ? '' : 'FROM'}</span>
+        )}
+        <span className="clause">
+          <input
+            type="text"
+            placeholder="my_table"
+            value={selectedTable}
+            onInput={handleTableChange as () => void}
+          />
+        </span>
+        {selectedStatement === 'INSERT' && (
+          <>
+            <span className="clause">(</span>
+            <span className="clause">
+              <input
+                type="text"
+                placeholder="column1, column2"
+                value={insertColumns}
+                onInput={handleInsertColumnChange as () => void}
+              />
+            </span>
+            <span className="clause">)</span>
           </>
         )}
         {selectedStatement === 'UPDATE' && (
           <>
-            <span>SET</span>
-            <input
-              type="text"
-              placeholder="column1 = value1, column2 = value2"
-              value={setClause}
-              onInput={handleSetClauseChange as () => void}
-            />
+            <span className="clause">SET</span>
+            <span className="clause">
+              <input
+                type="text"
+                placeholder="column1 = value1, column2 = value2"
+                value={setClause}
+                onInput={handleSetClauseChange as () => void}
+              />
+            </span>
           </>
         )}
         {selectedStatement === 'INSERT' ? (
           <>
-            <span>VALUES</span>
-            <span>(</span>
-            <input
-              type="text"
-              placeholder='value1, value2'
-              value={insertValues}
-              onInput={handleInsertValuesChange as () => void}
-            />
-            <span>)</span>
+            <span className="clause">VALUES</span>
+            <span className="clause">(</span>
+            <span className="clause">
+              <input
+                type="text"
+                placeholder='value1, value2'
+                value={insertValues}
+                onInput={handleInsertValuesChange as () => void}
+              />
+            </span>
+            <span className="clause">)</span>
           </>
         ) : (
-          <>
-            <span>WHERE</span>
-            <input
-              type="text"
-              placeholder='column1 = "value1"'
-              value={whereClause}
-              onInput={handleWhereClauseChange as () => void}
-            />
-          </>
+          <span className="clause">
+            <span className="clause">WHERE</span>
+              <input
+                type="text"
+                placeholder='column1 = "value1"'
+                value={whereClause}
+                onInput={handleWhereClauseChange as () => void}
+              />
+          </span>
         )}
       </div>
-      {selectedTable && (
-        <div className="display-area">
-          <span className='clause-container'>
-            <span className='clause'>{selectedStatement}</span>
-            {selectedStatement === 'SELECT' && (
-              <span className='clause'>{selectedColumn}</span>
-            )}
-            {selectedStatement === 'INSERT' ? (
-              <span className='clause'>INTO</span>
-            ) : (
-              (selectedStatement !== 'UPDATE' && (
-                <span className='clause'>FROM</span>
-              ))
-            )}
-            <span className='clause'>{selectedTable}</span>
-            {(selectedStatement !== 'INSERT' && whereClause) && (
-              <>
-                <span className='clause'>WHERE</span>
-                <span className='clause'>{whereClause}</span>
-              </>
-            )}
-          </span>
-        </div>
-      )}
       <div className="button-area">
         <button
           disabled={!selectedTable}
