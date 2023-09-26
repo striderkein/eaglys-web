@@ -71,6 +71,18 @@ body {
 
 .clause {
   padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: black;
+  color: greenyellow;
+
+  & select, input {
+    font-size: 18px;
+    background-color: black;
+    color: greenyellow;
+    border: none;
+    text-align: center;
+  }
 }
 
 @keyframes App-logo-spin {
