@@ -13,7 +13,11 @@ function Section1({
 }: Props) {
   const [initialSql, setInitialSql] = useState('');
   const [selectedStatement, setSelectedStatement] = useState('SELECT');
+  const [selectedColumn, setSelectedColumn] = useState('');
+  const [insertColumns, setInsertColumns] = useState('');
+  const [insertValues, setInsertValues] = useState('');
   const [selectedTable, setSelectedTable] = useState('');
+  const [setClause, setSetClause] = useState('');
   const [whereClause, setWhereClause] = useState('');
 
   const handleSqlTypeChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
@@ -22,13 +26,13 @@ function Section1({
     if (selectedTable) {
       switch (statement) {
         case 'SELECT':
-          setInitialSql(`SELECT * FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`);
+          setInitialSql(`SELECT ${selectedColumn} FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`);
           break;
         case 'INSERT':
-          setInitialSql(`INSERT INTO ${selectedTable} (column1, column2) VALUES (value1, value2)`);
+          setInitialSql(`INSERT INTO ${selectedTable} (${insertColumns}) VALUES (${insertValues})`);
           break;
         case 'UPDATE':
-          setInitialSql(`UPDATE ${selectedTable} SET column1 = value1 ${whereClause ? `WHERE ${whereClause}` : ''}`);
+          setInitialSql(`UPDATE ${selectedTable} SET ${setClause} ${whereClause ? `WHERE ${whereClause}` : ''}`);
           break;
         case 'DELETE':
           setInitialSql(`DELETE FROM ${selectedTable} ${whereClause ? `WHERE ${whereClause}` : ''}`);
@@ -41,22 +45,52 @@ function Section1({
     console.log(`initialSql: ${initialSql}`)
     setSelectedStatement(statement);
     handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
-}, [initialSql, selectedTable, whereClause, handleSqlChange]);
+}, [initialSql, selectedColumn, insertColumns, insertValues, selectedTable, setClause, whereClause, handleSqlChange]);
+
+  const handleColumnChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    const column = event.target.value;
+    setSelectedColumn(column);
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
+
+  const handleInsertColumnChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    const column = event.target.value;
+    setInsertColumns(column);
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
+
+  const handleInsertValuesChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    const insertValues = event.target.value;
+    setInsertValues(insertValues);
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
 
   const handleTableChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const table = event.target.value;
     setSelectedTable(table);
-  }, [initialSql]);
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
 
-  const handleWhereClauseChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleSetClauseChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    const setClause = event.target.value;
+    setSetClause(setClause);
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
+
+  const handleWhereClauseChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const whereClause = event.target.value;
     setWhereClause(whereClause);
-  }
+    handleSqlChange({ target: { value: initialSql } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [initialSql, handleSqlChange]);
 
   const handleClearClick = () => {
     setInitialSql('');
     setSelectedStatement('SELECT');
+    setSelectedColumn('');
+    setInsertColumns('');
+    setInsertValues('');
     setSelectedTable('');
+    setSetClause('');
     setWhereClause('');
     handleSqlChange({ target: { value: '' } } as React.ChangeEvent<HTMLTextAreaElement>);
   };
@@ -75,6 +109,14 @@ function Section1({
           <option value="UPDATE">UPDATE</option>
           <option value="DELETE">DELETE</option>
         </select>
+        {selectedStatement === 'SELECT' && (
+          <input
+            type="text"
+            placeholder="*"
+            value={selectedColumn}
+            onInput={handleColumnChange as () => void}
+          />
+        )}
         {selectedStatement === 'INSERT' ? (
           <span>INTO</span>
         ) : (
@@ -86,7 +128,42 @@ function Section1({
           value={selectedTable}
           onInput={handleTableChange as () => void}
         />
-        {selectedStatement !== 'INSERT' && (
+        {selectedStatement === 'INSERT' && (
+          <>
+            <span>(</span>
+            <input
+              type="text"
+              placeholder="column1, column2"
+              value={insertColumns}
+              onInput={handleInsertColumnChange as () => void}
+            />
+            <span>)</span>
+          </>
+        )}
+        {selectedStatement === 'UPDATE' && (
+          <>
+            <span>SET</span>
+            <input
+              type="text"
+              placeholder="column1 = value1, column2 = value2"
+              value={setClause}
+              onInput={handleSetClauseChange as () => void}
+            />
+          </>
+        )}
+        {selectedStatement === 'INSERT' ? (
+          <>
+            <span>VALUES</span>
+            <span>(</span>
+            <input
+              type="text"
+              placeholder='value1, value2'
+              value={insertValues}
+              onInput={handleInsertValuesChange as () => void}
+            />
+            <span>)</span>
+          </>
+        ) : (
           <>
             <span>WHERE</span>
             <input
@@ -103,7 +180,7 @@ function Section1({
           <span className='clause-container'>
             <span className='clause'>{selectedStatement}</span>
             {selectedStatement === 'SELECT' && (
-              <span className='clause'>*</span>
+              <span className='clause'>{selectedColumn}</span>
             )}
             {selectedStatement === 'INSERT' ? (
               <span className='clause'>INTO</span>
