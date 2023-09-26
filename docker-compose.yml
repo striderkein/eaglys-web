@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: eaglys-web
+    ports:
+      - "${REACT_APP_WEB_PORT}:3000"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
+    networks:
+      - eaglys
+networks:
+  eaglys:
+    driver: bridge
